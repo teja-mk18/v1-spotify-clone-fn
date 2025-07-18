@@ -69,8 +69,7 @@ const MainContent = () => {
         </button>
         <div className="flex justify-start">
           <div
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
-            style={{ width: "864px" }}
+            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full"
           >
             {playlistSongs.length === 0 ? (
               <div className="text-neutral-400">No songs in this playlist</div>
@@ -104,8 +103,7 @@ const MainContent = () => {
       <h1 className="text-2xl font-bold mb-4 text-white">All Songs</h1>
       <div className="flex justify-start">
         <div
-          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
-          style={{ width: "864px" }}
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full"
         >
           {songs.map((song) => {
             return (

@@ -140,8 +140,16 @@ export const PlayerProvider = ({ children }) => {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (currentSong && audio) {
+    // Defensive: Only proceed if fileUrl is a non-empty string and looks like an audio file
+    if (
+      currentSong &&
+      audio &&
+      typeof currentSong.fileUrl === 'string' &&
+      currentSong.fileUrl.trim() !== '' &&
+      /\.(mp3|wav|ogg)$/i.test(currentSong.fileUrl)
+    ) {
       audio.src = `${import.meta.env.VITE_BACKEND_URL.replace(/\/api\/v1\/?$/, "")}${currentSong.fileUrl}`;
+      console.log('Audio src:', audio.src); // Debug log
       audio.load();
 
       const handleCanPlay = () => {
@@ -153,10 +161,13 @@ export const PlayerProvider = ({ children }) => {
 
       audio.addEventListener('canplay', handleCanPlay);
 
-      // Cleanup in case currentSong changes before canplay fires
       return () => {
         audio.removeEventListener('canplay', handleCanPlay);
       };
+    } else if (audio) {
+      // If invalid, clear the source
+      audio.src = '';
+      setIsPlaying(false);
     }
   }, [currentSong]);
 
