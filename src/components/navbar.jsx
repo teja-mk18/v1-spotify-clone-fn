@@ -1,51 +1,96 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/appContext";
 import { axiosInstance } from "../axios/axiosInstance";
+import { usePlaylist } from "../contexts/PlaylistContext";
 
 const Navbar = () => {
-    const { user = {} } = useAppContext();
+  const { user = {} } = useAppContext();
+  const { isAuthenticated } = user;
+  const { setSelectedPlaylist } = usePlaylist();
 
-    const { isAuthenticated } = user;
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.get("/auth/logout");
+      window.location.reload();
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
 
-    const handleLogout = async () => {
-        try {
-            await axiosInstance.get("/auth/logout");
-            //todo
-            window.location.reload();
-        } catch (err) {
-            // todo
-        }
-    };
+  const handleHomeClick = () => {
+    setSelectedPlaylist(null);
+  };
 
-    return (
-        <div className="p-6 flex items-center justify-between bg-amber-200">
-            <div>My App</div>
-            <div></div>
-            <div className="flex gap-4 ">
-                <Link to="/">Home</Link>
-                {!isAuthenticated ? (
-                    <div className="flex gap-4 items-center">
-                        <Link to="/login" className="text-blue-500 underline">
-                            Login
-                        </Link>
-                        <Link to="/signup" className="text-blue-500 underline">
-                            Signup
-                        </Link>
-                    </div>
-                ) : (
-                    <>
-                        <button
-                            className="py-1 px-2 border-1 border-blue-600 bg-blue-200 rounded-md"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
-                        <p>{user?.email}</p>
-                    </>
-                )}
-            </div>
-        </div>
-    );
+  return (
+    <div className="w-full h-16 flex items-center justify-between px-6 bg-black text-white">
+      {/* Logo or Brand */}
+      <Link to="/" className="text-xl font-bold text-white flex items-center gap-2" onClick={handleHomeClick}>
+        <img src="/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify Logo" className="h-7 w-auto" />
+        Spotify Clone
+      </Link>
+
+      {/* Home Button (centered) */}
+      <div className="flex-1 flex justify-center">
+        <Link
+          to="/"
+          onClick={handleHomeClick}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-black hover:bg-zinc-800 transition duration-200 shadow-lg border border-zinc-700"
+        >
+          {/* Improved Home Icon SVG */}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
+            <path d="M3 12L12 5l9 7" />
+            <path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9" />
+          </svg>
+        </Link>
+      </div>
+
+      {/* Navigation Links */}
+      <div className="flex gap-6 items-center text-sm font-medium">
+        {/* Remove old Home link since we have a new Home button */}
+        {/*
+        <Link to="/" className="hover:text-green-400 transition duration-200" onClick={handleHomeClick}>
+          Home
+        </Link>
+        */}
+
+        {isAuthenticated && (
+          <Link
+            to="/upload"
+            className="hover:text-green-400 transition duration-200"
+          >
+            Upload
+          </Link>
+        )}
+
+        {!isAuthenticated ? (
+          <>
+            <Link
+              to="/login"
+              className="text-zinc-300 hover:text-white transition duration-200"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="text-zinc-300 hover:text-white transition duration-200"
+            >
+              Signup
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={handleLogout}
+              className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-800 hover:bg-zinc-700 transition duration-200"
+            >
+              Logout
+            </button>
+            <span className="text-zinc-400 text-xs">{user?.email}</span>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export { Navbar };
