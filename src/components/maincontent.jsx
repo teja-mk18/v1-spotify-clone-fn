@@ -12,7 +12,7 @@ const MainContent = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const res = await fetch("http://localhost:2900/api/v1/songs");
+        const res = await fetch("https://v1-spotify-clone-fn.vercel.app/api/v1/songs");
         const data = await res.json();
         if (Array.isArray(data)) setSongs(data);
       } catch (err) {
