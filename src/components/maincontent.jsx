@@ -12,9 +12,8 @@ const MainContent = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const res = await fetch("https://v1-spotify-clone-fn.vercel.app/api/v1/songs");
-        const data = await res.json();
-        if (Array.isArray(data)) setSongs(data);
+        const res = await axiosInstance.get("/songs");
+        if (Array.isArray(res.data)) setSongs(res.data);
       } catch (err) {
         console.error("Failed to fetch songs:", err);
       }
