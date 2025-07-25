@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // <-- FIXED
 import { axiosInstance } from "../axios/axiosInstance";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
+import { Navbar } from "../components/navbar";
 
 const SignupPage = () => {
     const [isOtpSent, setIsOtpSent] = useState(false);
@@ -58,75 +59,64 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="min-h-[100vh] p-4 flex items-center justify-center">
-            <div className="p-6 flex flex-col items-start gap-4 bg-emerald-200 rounded-lg">
-                <div className="flex gap-4 items-center">
-                    <label className="text-gray-700" htmlFor="user-email">
-                        Email:
-                    </label>
-                    <input
-                        id="user-email"
-                        type="email"
-                        name="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="border-1 rounded-md py-1 px-2 text-indigo-700"
-                    ></input>
-                </div>
-                {isOtpSent && (
-                    <>
-                        <div className="flex gap-4 items-center">
-                            <label className="text-gray-700" htmlFor="user-password">
-                                OTP:
-                            </label>
+        <div className="min-h-screen bg-black flex flex-col">
+            <Navbar />
+            <div className="flex flex-1 items-center justify-center">
+                <div className="w-full max-w-md p-8 flex flex-col items-center gap-6 bg-[#181818] border border-neutral-800 rounded-xl shadow-lg">
+                    <img src="/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify Logo" className="h-12 mb-2" />
+                    <h2 className="text-2xl font-bold text-white mb-2">Create your account</h2>
+                    <div className="w-full flex flex-col gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label className="text-neutral-300 text-sm" htmlFor="user-email">Email</label>
                             <input
-                                id="user-otp"
-                                type="text"
-                                name="otp"
+                                id="user-email"
+                                type="email"
+                                name="email"
                                 required
-                                className="border-1 rounded-md py-1 px-2 text-indigo-700"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                            ></input>
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="bg-zinc-900 border border-zinc-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                                autoComplete="email"
+                            />
                         </div>
-                        <div className="flex gap-4 items-center">
-                            <label className="text-gray-700" htmlFor="user-password">
-                                Password:
-                            </label>
-                            <input
-                                id="user-password"
-                                type="password"
-                                name="password"
-                                required
-                                className="border-1 rounded-md py-1 px-2 text-indigo-700"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            ></input>
-                        </div>
-                    </>
-                )}
-                <div className="flex flex-col gap-3 items-center self-stretch">
-                    {isOtpSent ? (
+                        {isOtpSent && (
+                            <>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-neutral-300 text-sm" htmlFor="user-otp">OTP</label>
+                                    <input
+                                        id="user-otp"
+                                        type="text"
+                                        name="otp"
+                                        required
+                                        className="bg-zinc-900 border border-zinc-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                                        value={otp}
+                                        onChange={(e) => setOtp(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-neutral-300 text-sm" htmlFor="user-password">Password</label>
+                                    <input
+                                        id="user-password"
+                                        type="password"
+                                        name="password"
+                                        required
+                                        className="bg-zinc-900 border border-zinc-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        autoComplete="new-password"
+                                    />
+                                </div>
+                            </>
+                        )}
                         <button
-                            className="border-1 py-1 px-2 rounded-lg text-xl bg-green-700 text-white cursor-pointer"
-                            onClick={handleRegister}
+                            className="w-full py-2 mt-2 rounded-lg text-lg font-semibold bg-green-600 hover:bg-green-700 text-white transition shadow"
+                            onClick={isOtpSent ? handleRegister : handleSendOtp}
                         >
-                            Register
+                            {isOtpSent ? 'Register' : 'Send OTP'}
                         </button>
-                    ) : (
-                        <button
-                            onClick={handleSendOtp}
-                            className="border-1 py-1 px-2 rounded-lg text-xl bg-green-700 text-white cursor-pointer"
-                        >
-                            Send OTP
-                        </button>
-                    )}
-                    <p className="flex flex-col gap-2 items-center justify-center">
-                        <span>Already have an account?</span>
-                        <Link to="/login" className="text-blue-600 underline">
-                            Login here
-                        </Link>
+                    </div>
+                    <p className="text-neutral-400 text-sm mt-2">Already have an account?{' '}
+                        <Link to="/login" className="text-green-400 hover:underline">Login here</Link>
                     </p>
                 </div>
             </div>
