@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // <-- FIXED
 import { axiosInstance } from "../axios/axiosInstance";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
-import { Navbar } from "../components/navbar";
+// Remove: import { Navbar } from "../components/navbar";
 
 const SignupPage = () => {
     const [isOtpSent, setIsOtpSent] = useState(false);
@@ -60,11 +60,14 @@ const SignupPage = () => {
 
     return (
         <div className="min-h-screen bg-black flex flex-col">
-            <Navbar />
+            {/* Remove: <Navbar /> */}
             <div className="flex flex-1 items-center justify-center">
-                <div className="w-full max-w-md p-8 flex flex-col items-center gap-6 bg-[#181818] border border-neutral-800 rounded-xl shadow-lg">
-                    <img src="/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify Logo" className="h-12 mb-2" />
-                    <h2 className="text-2xl font-bold text-white mb-2">Create your account</h2>
+                <div className="w-full max-w-md p-8 flex flex-col items-center gap-6 bg-[#181818] border border-neutral-800 rounded-xl shadow-lg animate-fade-in">
+                    <div className="flex flex-col items-center gap-2 mb-2">
+                        <img src="/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify Logo" className="h-12 drop-shadow-lg" />
+                        <span className="text-2xl font-bold text-white tracking-wide">Spotify Clone</span>
+                    </div>
+                    <h2 className="text-xl font-semibold text-white mb-2">Create your account</h2>
                     <div className="w-full flex flex-col gap-4">
                         <div className="flex flex-col gap-1">
                             <label className="text-neutral-300 text-sm" htmlFor="user-email">Email</label>

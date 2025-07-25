@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+/* Fade-in animation utility */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.7s ease;
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
